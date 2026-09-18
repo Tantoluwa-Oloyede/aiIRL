@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI IRL — AI Video & Visual Creation Academy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#FFD700',
+                            'gold-muted': '#D4AF37',
+                            'gold-light': '#FFF099',
+                            'gold-dark': '#997A15',
+                            onyx: '#0B0F19',
+                            charcoal: '#111827',
+                            surface: '#161F33',
+                            'surface-hover': '#1F2B47',
+                            border: 'rgba(212, 175, 55, 0.25)',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Space Grotesk', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'gold-glow': '0 0 25px -5px rgba(255, 215, 0, 0.3)',
+                        'gold-glow-lg': '0 0 45px -5px rgba(255, 215, 0, 0.45)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #F3F4F6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF099 0%, #FFD700 40%, #D4AF37 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #FFD700 0%, #D4AF37 60%, #997A15 100%);
+        }
+
+        .gold-gradient-border {
+            border: 1px solid transparent;
+            background: linear-gradient(#161F33, #161F33) padding-box,
+                        linear-gradient(135deg, rgba(255,215,0,0.7), rgba(212,175,55,0.15), rgba(255,215,0,0.5)) border-box;
+        }
+
+        .glass-panel {
+            background: rgba(22, 31, 51, 0.7);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2B47;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-gold selection:text-brand-onyx">
+
+    <header class="fixed top-0 left-0 right-0 z-40 glass-panel border-b border-brand-border/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl gold-gradient-bg flex items-center justify-center font-heading font-extrabold text-brand-onyx text-xl shadow-gold-glow group-hover:scale-105 transition-transform">
+                    AI
+                </div>
+                <div>
+                    <span class="font-heading font-extrabold text-xl tracking-wider text-white flex items-center gap-1.5">
+                        AI IRL <span class="text-xs px-2 py-0.5 rounded-full bg-brand-gold/10 text-brand-gold border border-brand-gold/30 font-sans font-medium">PRO</span>
+                    </span>
+                    <span class="text-[10px] text-gray-400 block tracking-widest uppercase -mt-1">Video Creation, Made Practical</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-300">
+                <a href="#showcase" class="hover:text-brand-gold transition-colors">Showcase</a>
+                <a href="#curriculum" class="hover:text-brand-gold transition-colors">Modules</a>
+                <a href="#coaching" class="hover:text-brand-gold transition-colors">Coaching</a>
+                <a href="#about" class="hover:text-brand-gold transition-colors">About</a>
+                <a href="#faq" class="hover:text-brand-gold transition-colors">FAQ</a>
+                <a href="#contact" class="hover:text-brand-gold transition-colors">Contact</a>
+            </nav>
+
+            <!-- Action CTA -->
+            <div class="hidden md:flex items-center gap-4">
+                <button onclick="openEnrollModal('course')" class="gold-gradient-bg text-brand-onyx font-bold text-sm px-6 py-2.5 rounded-xl hover:opacity-95 shadow-gold-glow transition-all hover:scale-105 active:scale-95">
+                    Get Started
+                </button>
+            </div>
+
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white p-2">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-surface border-b border-brand-border/40 px-6 py-6 space-y-4">
+            <a href="#showcase" class="mobile-nav-link block text-gray-300 hover:text-brand-gold py-1">Showcase</a>
+            <a href="#curriculum" class="mobile-nav-link block text-gray-300 hover:text-brand-gold py-1">Modules</a>
+            <a href="#coaching" class="mobile-nav-link block text-gray-300 hover:text-brand-gold py-1">Coaching</a>
+            <a href="#about" class="mobile-nav-link block text-gray-300 hover:text-brand-gold py-1">About</a>
+            <a href="#faq" class="mobile-nav-link block text-gray-300 hover:text-brand-gold py-1">FAQ</a>
+            <a href="#contact" class="mobile-nav-link block text-gray-300 hover:text-brand-gold py-1">Contact</a>
+            <div class="pt-4 border-t border-gray-800 flex flex-col gap-3">
+                <button onclick="openEnrollModal('course')" class="w-full gold-gradient-bg text-brand-onyx font-bold py-3 rounded-xl text-center shadow-gold-glow">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[550px] h-[550px] bg-brand-gold/10 rounded-full blur-[130px] pointer-events-none"></div>
+        <div class="absolute top-10 right-10 w-72 h-72 bg-amber-600/10 rounded-full blur-[95px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Hero Copy -->
+                <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs sm:text-sm font-semibold tracking-wide">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        AI Video & Visual Creation Academy
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-heading tracking-tight leading-[1.15]">
+                        Create More With AI: <br class="hidden sm:inline" />
+                        <span class="gold-gradient-text">AI Video Creation,</span> Made Practical.
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                        Master cutting-edge AI video tools, prompt engineering, AI avatars, and visual storytelling—from zero experience to high-converting commercials and cinematic content.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <button onclick="openEnrollModal('course')" class="w-full sm:w-auto gold-gradient-bg text-brand-onyx font-extrabold text-base px-8 py-4 rounded-xl hover:opacity-95 shadow-gold-glow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+                            <span>Enroll Now</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                        
+                        <a href="#showcase" class="w-full sm:w-auto glass-panel hover:bg-brand-surface-hover text-white font-semibold text-base px-8 py-4 rounded-xl border border-brand-border/40 transition-all flex items-center justify-center gap-2 text-center">
+                            <span>Explore Showcase</span>
+                            <i data-lucide="play-circle" class="w-5 h-5 text-brand-gold"></i>
+                        </a>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div class="pt-4 border-t border-brand-border/20 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0 text-center sm:text-left">
+                        <div class="space-y-1">
+                            <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Methodology</p>
+                            <p class="text-sm font-bold text-white flex items-center justify-center sm:justify-start gap-1">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-gold"></i> 100% Practical
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Skill Level</p>
+                            <p class="text-sm font-bold text-white flex items-center justify-center sm:justify-start gap-1">
+                                <i data-lucide="zap" class="w-4 h-4 text-brand-gold"></i> Zero Experience
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Access</p>
+                            <p class="text-sm font-bold text-white flex items-center justify-center sm:justify-start gap-1">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-brand-gold"></i> Lifetime Portal
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hero Visual Showcase Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative gold-gradient-border rounded-2xl overflow-hidden shadow-gold-glow bg-brand-surface group">
+                        
+                        <div id="hero-media-container" class="relative aspect-[4/3] bg-brand-charcoal overflow-hidden flex items-center justify-center">
+                            <img id="hero-preview-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop" alt="AI Generated Video Sample" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                            
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-onyx via-transparent to-transparent opacity-85"></div>
+
+                            <div id="hero-play-btn" onclick="toggleHeroPreview()" class="absolute cursor-pointer z-10 w-16 h-16 rounded-full gold-gradient-bg text-brand-onyx flex items-center justify-center shadow-gold-glow transition-transform duration-300 hover:scale-110">
+                                <i data-lucide="play" class="w-7 h-7 fill-brand-onyx ml-1"></i>
+                            </div>
+
+                            <div class="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-brand-gold/30 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <span class="text-xs font-mono text-gray-200">AI Generated Reel #01</span>
+                            </div>
+
+                            <div class="absolute bottom-4 left-4 right-4 z-10 glass-panel p-3 rounded-xl text-xs space-y-1">
+                                <p class="text-brand-gold font-mono font-semibold flex items-center gap-1">
+                                    <i data-lucide="terminal" class="w-3.5 h-3.5"></i> Prompt Output:
+                                </p>
+                                <p class="text-gray-300 italic font-mono truncate">
+                                    "Hyper-realistic luxury campaign render, volumetric gold light ray..."
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-brand-surface flex items-center justify-between text-xs text-gray-400">
+                            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-brand-gold"></i> Fast Rendering</span>
+                            <span class="flex items-center gap-1.5"><i data-lucide="cpu" class="w-3.5 h-3.5 text-brand-gold"></i> Sora / Runway Gen-3 Tech</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="showcase" class="py-20 bg-brand-charcoal/50 border-y border-brand-border/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-gold">Visual Evidence</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold font-heading">
+                    See What You Will Learn To <span class="gold-gradient-text">Create</span>
+                </p>
+                <p class="text-gray-400 text-sm sm:text-base">
+                    Here is the exact level of high-ticket AI video content you'll produce after completing AI IRL modules.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+                <button onclick="filterShowcase(event, 'all')" class="showcase-tab active px-5 py-2 rounded-full text-xs sm:text-sm font-semibold bg-brand-gold text-brand-onyx transition-all">All Projects</button>
+                <button onclick="filterShowcase(event, 'ads')" class="showcase-tab px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-panel text-gray-300 hover:text-brand-gold transition-all">Commercial Ads</button>
+                <button onclick="filterShowcase(event, 'cinematic')" class="showcase-tab px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-panel text-gray-300 hover:text-brand-gold transition-all">Cinematic Shorts</button>
+                <button onclick="filterShowcase(event, 'avatars')" class="showcase-tab px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-panel text-gray-300 hover:text-brand-gold transition-all">AI Avatars & Talking Heads</button>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Item 1 -->
+                <div class="showcase-item ads gold-gradient-border rounded-xl overflow-hidden bg-brand-surface group">
+                    <div class="relative aspect-video bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop" alt="AI Product Ad" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full gold-gradient-bg text-brand-onyx flex items-center justify-center shadow-gold-glow group-hover:scale-110 transition-transform cursor-pointer">
+                                <i data-lucide="play" class="w-5 h-5 fill-brand-onyx ml-0.5"></i>
+                            </div>
+                        </div>
+                        <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded text-[10px] font-mono text-brand-gold border border-brand-gold/30">Commercial Concept</span>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <h3 class="font-bold text-base text-white">Luxury Headphones Commercial</h3>
+                        <p class="text-xs text-gray-400">Created with Midjourney v6 + Luma Dream Machine & sound FX.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="showcase-item cinematic gold-gradient-border rounded-xl overflow-hidden bg-brand-surface group">
+                    <div class="relative aspect-video bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop" alt="Cinematic Sci Fi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full gold-gradient-bg text-brand-onyx flex items-center justify-center shadow-gold-glow group-hover:scale-110 transition-transform cursor-pointer">
+                                <i data-lucide="play" class="w-5 h-5 fill-brand-onyx ml-0.5"></i>
+                            </div>
+                        </div>
+                        <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded text-[10px] font-mono text-brand-gold border border-brand-gold/30">Cinematic Short</span>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <h3 class="font-bold text-base text-white">Cyberpunk City Trailer</h3>
+                        <p class="text-xs text-gray-400">Complex camera movements, Runway Gen-3 lip-sync & atmospheric lighting.</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="showcase-item avatars gold-gradient-border rounded-xl overflow-hidden bg-brand-surface group">
+                    <div class="relative aspect-video bg-black overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" alt="AI Avatar Talking Head" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full gold-gradient-bg text-brand-onyx flex items-center justify-center shadow-gold-glow group-hover:scale-110 transition-transform cursor-pointer">
+                                <i data-lucide="play" class="w-5 h-5 fill-brand-onyx ml-0.5"></i>
+                            </div>
+                        </div>
+                        <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded text-[10px] font-mono text-brand-gold border border-brand-gold/30">UGC / Avatar</span>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <h3 class="font-bold text-base text-white">Faceless Brand Spokesperson</h3>
+                        <p class="text-xs text-gray-400">Realistic ElevenLabs voice cloning integrated with HeyGen.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="curriculum" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="px-3.5 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold">Structured Curriculum</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold font-heading">
+                    The <span class="gold-gradient-text">8-Module Blueprint</span>
+                </h2>
+                <p class="text-gray-400 text-sm sm:text-base">
+                    From your first text prompt to closing high-paying client contracts—everything is laid out step-by-step.
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-4">
+                
+                <!-- Module 1 -->
+                <div class="module-card glass-panel rounded-xl overflow-hidden border border-brand-border/30 transition-all">
+                    <button onclick="toggleModule('mod1')" class="w-full p-6 text-left flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx font-bold font-mono flex items-center justify-center text-sm shrink-0">01</span>
+                            <div>
+                                <h3 class="font-bold text-base sm:text-lg text-white">Foundations of AI Video & Prompt Engineering</h3>
+                                <p class="text-xs text-gray-400">Text-to-image & text-to-video prompt structures for sharp results.</p>
+                            </div>
+                        </div>
+                        <i id="mod1-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold transition-transform duration-300"></i>
+                    </button>
+                    <div id="mod1-content" class="hidden px-6 pb-6 pt-2 border-t border-brand-border/10 text-sm text-gray-300 space-y-2 bg-brand-charcoal/30">
+                        <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                            <li>Understanding the AI Video Ecosystem (Sora, Runway Gen-3, Luma, Kling)</li>
+                            <li>The Golden Prompt Architecture for crisp visuals without distortion</li>
+                            <li>Setting seed values, aspect ratios, and resolution upscaling</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="module-card glass-panel rounded-xl overflow-hidden border border-brand-border/30 transition-all">
+                    <button onclick="toggleModule('mod2')" class="w-full p-6 text-left flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx font-bold font-mono flex items-center justify-center text-sm shrink-0">02</span>
+                            <div>
+                                <h3 class="font-bold text-base sm:text-lg text-white">Image-to-Video Transformation & Motion Control</h3>
+                                <p class="text-xs text-gray-400">Animating static images with motion brushes and camera paths.</p>
+                            </div>
+                        </div>
+                        <i id="mod2-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold transition-transform duration-300"></i>
+                    </button>
+                    <div id="mod2-content" class="hidden px-6 pb-6 pt-2 border-t border-brand-border/10 text-sm text-gray-300 space-y-2 bg-brand-charcoal/30">
+                        <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                            <li>Transforming Midjourney & DALL-E stills into fluid video sequences</li>
+                            <li>Controlling camera pans, tilts, zooms, and object velocity</li>
+                            <li>Eliminating AI morphing glitches and unwanted artifacts</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="module-card glass-panel rounded-xl overflow-hidden border border-brand-border/30 transition-all">
+                    <button onclick="toggleModule('mod3')" class="w-full p-6 text-left flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx font-bold font-mono flex items-center justify-center text-sm shrink-0">03</span>
+                            <div>
+                                <h3 class="font-bold text-base sm:text-lg text-white">AI Talking Avatars & Lip Syncing</h3>
+                                <p class="text-xs text-gray-400">Hyper-realistic digital humans and mouth movement alignment.</p>
+                            </div>
+                        </div>
+                        <i id="mod3-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold transition-transform duration-300"></i>
+                    </button>
+                    <div id="mod3-content" class="hidden px-6 pb-6 pt-2 border-t border-brand-border/10 text-sm text-gray-300 space-y-2 bg-brand-charcoal/30">
+                        <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                            <li>Generating custom hyper-realistic human avatars</li>
+                            <li>Perfecting facial expressions and natural eye contact</li>
+                            <li>Syncing voice tracks with HeyGen and LivePortrait</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 4 -->
+                <div class="module-card glass-panel rounded-xl overflow-hidden border border-brand-border/30 transition-all">
+                    <button onclick="toggleModule('mod4')" class="w-full p-6 text-left flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx font-bold font-mono flex items-center justify-center text-sm shrink-0">04</span>
+                            <div>
+                                <h3 class="font-bold text-base sm:text-lg text-white">Cinematic Lighting & Lens Work</h3>
+                                <p class="text-xs text-gray-400">Replicating Hollywood director setups and lens effects.</p>
+                            </div>
+                        </div>
+                        <i id="mod4-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold transition-transform duration-300"></i>
+                    </button>
+                    <div id="mod4-content" class="hidden px-6 pb-6 pt-2 border-t border-brand-border/10 text-sm text-gray-300 space-y-2 bg-brand-charcoal/30">
+                        <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                            <li>Volumetric lighting, golden hour, neon noir, and softbox prompting</li>
+                            <li>35mm vs 85mm cinematic depth of field settings</li>
+                            <li>Executing continuous smooth tracking shots</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 5 -->
+                <div class="module-card glass-panel rounded-xl overflow-hidden border border-brand-border/30 transition-all">
+                    <button onclick="toggleModule('mod5')" class="w-full p-6 text-left flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx font-bold font-mono flex items-center justify-center text-sm shrink-0">05</span>
+                            <div>
+                                <h3 class="font-bold text-base sm:text-lg text-white">Sound Design & Emotional Voiceovers</h3>
+                                <p class="text-xs text-gray-400">Scripting with ChatGPT and voice synthesis with ElevenLabs.</p>
+                            </div>
+                        </div>
+                        <i id="mod5-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold transition-transform duration-300"></i>
+                    </button>
+                    <div id="mod5-content" class="hidden px-6 pb-6 pt-2 border-t border-brand-border/10 text-sm text-gray-300 space-y-2 bg-brand-charcoal/30">
+                        <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                            <li>Writing high-converting ad scripts and storytelling arcs</li>
+                            <li>Cloning voices & tuning pacing and emotional inflection</li>
+                            <li>Generating AI background audio and realistic SFX</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 6 -->
+                <div class="module-card glass-panel rounded-xl overflow-hidden border border-brand-border/30 transition-all">
+                    <button onclick="toggleModule('mod6')" class="w-full p-6 text-left flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx font-bold font-mono flex items-center justify-center text-sm shrink-0">06</span>
+                            <div>
+                                <h3 class="font-bold text-base sm:text-lg text-white">Video Editing with CapCut & Post-Production</h3>
+                                <p class="text-xs text-gray-400">Stitching clips, auto-captions, and 4K upscaling.</p>
+                            </div>
+                        </div>
+                        <i id="mod6-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold transition-transform duration-300"></i>
+                    </button>
+                    <div id="mod6-content" class="hidden px-6 pb-6 pt-2 border-t border-brand-border/10 text-sm text-gray-300 space-y-2 bg-brand-charcoal/30">
+                        <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                            <li>Assembly editing workflow in CapCut / Premiere</li>
+                            <li>Adding viral dynamic captions and motion transitions</li>
+                            <li>Color grading AI video shots for a cohesive look</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 7 -->
+                <div class="module-card glass-panel rounded-xl overflow-hidden border border-brand-border/30 transition-all">
+                    <button onclick="toggleModule('mod7')" class="w-full p-6 text-left flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx font-bold font-mono flex items-center justify-center text-sm shrink-0">07</span>
+                            <div>
+                                <h3 class="font-bold text-base sm:text-lg text-white">Brand Commercials & UGC Ads</h3>
+                                <p class="text-xs text-gray-400">High-converting video ads for e-commerce, real estate, and brands.</p>
+                            </div>
+                        </div>
+                        <i id="mod7-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold transition-transform duration-300"></i>
+                    </button>
+                    <div id="mod7-content" class="hidden px-6 pb-6 pt-2 border-t border-brand-border/10 text-sm text-gray-300 space-y-2 bg-brand-charcoal/30">
+                        <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                            <li>Deconstructing viral TikTok & Instagram reel ad formulas</li>
+                            <li>Creating realistic product mockups and lifestyle clips</li>
+                            <li>A/B hook creation strategies to increase conversion</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Module 8 -->
+                <div class="module-card glass-panel rounded-xl overflow-hidden border border-brand-border/30 transition-all">
+                    <button onclick="toggleModule('mod8')" class="w-full p-6 text-left flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx font-bold font-mono flex items-center justify-center text-sm shrink-0">08</span>
+                            <div>
+                                <h3 class="font-bold text-base sm:text-lg text-white">Monetization & Client Acquisition</h3>
+                                <p class="text-xs text-gray-400">Packaging, pricing, and selling AI video services.</p>
+                            </div>
+                        </div>
+                        <i id="mod8-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold transition-transform duration-300"></i>
+                    </button>
+                    <div id="mod8-content" class="hidden px-6 pb-6 pt-2 border-t border-brand-border/10 text-sm text-gray-300 space-y-2 bg-brand-charcoal/30">
+                        <ul class="list-disc list-inside space-y-1 text-xs text-gray-300">
+                            <li>Building a high-converting portfolio without prior clients</li>
+                            <li>Outreach templates and cold messaging on Instagram/LinkedIn</li>
+                            <li>Pricing video packages (₦100k - ₦500k+ per commercial project)</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="coaching" class="py-24 bg-brand-charcoal/50 border-t border-brand-border/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="px-3.5 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold">Investment & Tracks</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold font-heading">
+                    Choose Your <span class="gold-gradient-text">Learning Track</span>
+                </h2>
+                <p class="text-gray-400 text-sm sm:text-base">
+                    Get instant access to the full masterclass curriculum or select hands-on 1-on-1 coaching guidance.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Card 1: Main Course -->
+                <div class="glass-panel rounded-3xl p-8 space-y-6 flex flex-col justify-between border border-brand-border/30 hover:border-brand-gold/50 transition-all">
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-mono text-gray-400 uppercase tracking-widest">Self-Paced Masterclass</span>
+                            <span class="px-3 py-1 rounded-full bg-brand-surface text-brand-gold text-xs font-semibold border border-brand-gold/30">Instant Access</span>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-extrabold font-heading text-white">AI Video Launchpad</h3>
+                            <p class="text-xs text-gray-400 mt-1">The comprehensive 8-module practical course for all skill levels.</p>
+                        </div>
+
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-4xl font-extrabold font-heading text-white">₦15,000</span>
+                            <span class="text-xs text-gray-400 line-through">₦35,000</span>
+                            <span class="text-xs text-emerald-400 font-semibold ml-2">Early Bird Rate</span>
+                        </div>
+
+                        <ul class="space-y-3 text-xs sm:text-sm text-gray-300 border-t border-brand-border/20 pt-6">
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                                Full 8-Module Video Curriculum Access
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                                Plug & Play AI Video Prompt Templates
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                                Preset Sound FX & Resource Pack
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                                Private Student Community Access
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-6 border-t border-brand-border/20">
+                        <button onclick="openEnrollModal('course')" class="w-full glass-panel hover:bg-brand-gold hover:text-brand-onyx text-white font-bold py-3.5 rounded-xl border border-brand-gold/40 transition-all text-sm shadow-gold-glow">
+                            Enroll in Course Only
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2: 1-on-1 Coaching (Vol. 1) -->
+                <div class="gold-gradient-border rounded-3xl p-8 space-y-6 flex flex-col justify-between bg-brand-surface shadow-gold-glow relative">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 gold-gradient-bg text-brand-onyx px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-md">
+                        Recommended for Direct Support
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between pt-2">
+                            <span class="text-xs font-mono text-brand-gold uppercase tracking-widest font-bold">Guided Coaching Track</span>
+                            <span class="px-3 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold border border-brand-gold/30">Limited Slots</span>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-extrabold font-heading text-white">AI Video Coaching — Vol. 1</h3>
+                            <p class="text-xs text-gray-300 mt-1">Get hands-on personal guidance to fast-track your video workflow.</p>
+                        </div>
+
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-4xl font-extrabold font-heading text-brand-gold">₦20,000</span>
+                            <span class="text-xs text-gray-400 font-mono">Per Edition</span>
+                        </div>
+
+                        <ul class="space-y-3 text-xs sm:text-sm text-gray-200 border-t border-brand-border/20 pt-6">
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                                <strong>Everything in Masterclass Course</strong> Included
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                                Direct 1-on-1 Portfolio & AI Prompt Review
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                                Personalized AI Tool Setup & Troubleshooting
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-gold shrink-0"></i>
+                                Priority Direct WhatsApp Guidance Channel
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pt-6 border-t border-brand-border/20">
+                        <button onclick="openEnrollModal('coaching')" class="w-full gold-gradient-bg text-brand-onyx font-extrabold py-3.5 rounded-xl hover:opacity-95 shadow-gold-glow transition-all text-sm">
+                            Book Coaching Vol. 1 (₦20,000)
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-brand-border/30 gold-gradient-border relative overflow-hidden">
+                <div class="grid lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-5 flex flex-col items-center text-center">
+                        <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden shadow-gold-glow border-2 border-brand-gold/40 mb-4">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" alt="AI IRL Lead Educator" class="w-full h-full object-cover" />
+                        </div>
+                        <span class="font-heading font-extrabold text-2xl text-white">Lead Instructor</span>
+                        <span class="text-xs text-brand-gold font-mono uppercase tracking-widest mt-1">Founder, AI IRL</span>
+                    </div>
+
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold">
+                            <i data-lucide="user-check" class="w-3.5 h-3.5"></i> Educator & AI Video Specialist
+                        </div>
+
+                        <h2 class="text-3xl sm:text-4xl font-extrabold font-heading">
+                            "AI isn't replacing creators. Creators using <span class="gold-gradient-text">AI are replacing</span> everyone else."
+                        </h2>
+
+                        <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                            Welcome to <strong>AI IRL</strong>. I created this platform with one single mission: to cut through confusing tech jargon and teach creators, business owners, and beginners how to make practical, jaw-dropping AI videos that generate real attention and income.
+                        </p>
+
+                        <div class="pt-4 grid grid-cols-3 gap-4 border-t border-brand-border/20 text-center sm:text-left">
+                            <div>
+                                <p class="text-2xl font-bold font-heading text-brand-gold">500+</p>
+                                <p class="text-xs text-gray-400">Students Trained</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold font-heading text-brand-gold">10M+</p>
+                                <p class="text-xs text-gray-400">Video Views</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold font-heading text-brand-gold">100%</p>
+                                <p class="text-xs text-gray-400">Practical Focus</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-brand-charcoal/30 border-y border-brand-border/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-gold">Real Feedback</h2>
+                <p class="text-3xl sm:text-4xl font-extrabold font-heading">
+                    What Our <span class="gold-gradient-text">Students Say</span>
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-panel p-6 rounded-2xl space-y-4 border border-brand-border/30">
+                    <div class="flex items-center gap-1 text-brand-gold">
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 italic leading-relaxed">
+                        "I used to struggle with non-stop video glitches on Luma and Runway. The prompt framework in Module 1 changed everything for my content page!"
+                    </p>
+                    <div class="pt-2 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center font-bold text-xs">DE</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">David E.</p>
+                            <p class="text-[10px] text-gray-400">Content Creator</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl space-y-4 border border-brand-border/30">
+                    <div class="flex items-center gap-1 text-brand-gold">
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 italic leading-relaxed">
+                        "The Coaching Vol 1 session was worth way more than ₦20,000. She reviewed my sample ad and corrected my camera prompt angles directly."
+                    </p>
+                    <div class="pt-2 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center font-bold text-xs">AO</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Aminat O.</p>
+                            <p class="text-[10px] text-gray-400">E-commerce Owner</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl space-y-4 border border-brand-border/30">
+                    <div class="flex items-center gap-1 text-brand-gold">
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-brand-gold"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-300 italic leading-relaxed">
+                        "Landed my first ₦120,000 AI video ad client just 2 weeks after finishing the course. The monetization module is pure gold!"
+                    </p>
+                    <div class="pt-2 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center font-bold text-xs">KM</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Kelechi M.</p>
+                            <p class="text-[10px] text-gray-400">Freelance Video Producer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <span class="px-3.5 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold">Got Questions?</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-heading">
+                    Frequently Asked <span class="gold-gradient-text">Questions</span>
+                </h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="glass-panel rounded-xl overflow-hidden border border-brand-border/30">
+                    <button onclick="toggleFaq('faq1')" class="w-full p-5 text-left font-bold text-white flex items-center justify-between text-sm sm:text-base">
+                        <span>Do I need a high-end laptop or expensive computer?</span>
+                        <i id="faq1-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold shrink-0 transition-transform"></i>
+                    </button>
+                    <div id="faq1" class="hidden px-5 pb-5 text-xs sm:text-sm text-gray-300 border-t border-brand-border/10 pt-3">
+                        No! Almost all top AI video creation tools operate in the cloud using standard web browsers (Google Chrome/Safari). You can create videos using a standard laptop or even a smartphone.
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-xl overflow-hidden border border-brand-border/30">
+                    <button onclick="toggleFaq('faq2')" class="w-full p-5 text-left font-bold text-white flex items-center justify-between text-sm sm:text-base">
+                        <span>Is this suitable for a complete beginner with zero video editing experience?</span>
+                        <i id="faq2-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold shrink-0 transition-transform"></i>
+                    </button>
+                    <div id="faq2" class="hidden px-5 pb-5 text-xs sm:text-sm text-gray-300 border-t border-brand-border/10 pt-3">
+                        Yes 100%. The curriculum starts from the absolute basics of understanding prompts, generating your very first shot, and guiding you step-by-step through editing.
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-xl overflow-hidden border border-brand-border/30">
+                    <button onclick="toggleFaq('faq3')" class="w-full p-5 text-left font-bold text-white flex items-center justify-between text-sm sm:text-base">
+                        <span>What AI tools will we be using during the course?</span>
+                        <i id="faq3-icon" data-lucide="chevron-down" class="w-5 h-5 text-brand-gold shrink-0 transition-transform"></i>
+                    </button>
+                    <div id="faq3" class="hidden px-5 pb-5 text-xs sm:text-sm text-gray-300 border-t border-brand-border/10 pt-3">
+                        We cover Midjourney, Runway Gen-3, Sora, Luma Dream Machine, Kling, ElevenLabs for voice synthesis, HeyGen/LivePortrait for avatars, and CapCut for final polish.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 bg-brand-charcoal/50 border-t border-brand-border/20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="px-3.5 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold">Get In Touch</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold font-heading">
+                    We'd Love To <span class="gold-gradient-text">Hear From You</span>
+                </h2>
+                <p class="text-gray-400 text-sm sm:text-base">
+                    Have questions about AI IRL modules, coaching slots, or custom brand video creation? Send us a direct message.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 max-w-6xl mx-auto items-start">
+                
+                <!-- Left Side: Contact Information Cards -->
+                <div class="lg:col-span-5 space-y-4">
+                    
+                    <!-- Direct Contact Channels Card -->
+                    <div class="glass-panel p-6 rounded-2xl border border-brand-border/30 space-y-6">
+                        <h3 class="font-heading font-bold text-lg text-white flex items-center gap-2">
+                            <i data-lucide="messages-square" class="w-5 h-5 text-brand-gold"></i> Direct Support Channels
+                        </h3>
+
+                        <div class="space-y-4">
+                            <!-- Email Item -->
+                            <a href="mailto:hello.aiirl@gmail.com" class="flex items-start gap-3.5 p-3 rounded-xl bg-brand-surface/70 hover:bg-brand-surface-hover border border-brand-border/10 transition-colors group">
+                                <div class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx flex items-center justify-center shrink-0">
+                                    <i data-lucide="mail" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 font-medium">Email Enquiries</p>
+                                    <p class="text-sm font-bold text-white group-hover:text-brand-gold transition-colors">hello@aiirl.com</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Response within &lt; 2 hours</p>
+                                </div>
+                            </a>
+
+                            <!-- WhatsApp Item -->
+                            <a id="contact-wa-card" href="#" target="_blank" class="flex items-start gap-3.5 p-3 rounded-xl bg-brand-surface/70 hover:bg-brand-surface-hover border border-brand-border/10 transition-colors group">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-500 text-brand-onyx flex items-center justify-center shrink-0">
+                                    <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 font-medium">WhatsApp Support</p>
+                                    <p class="text-sm font-bold text-white group-hover:text-brand-gold transition-colors">+234 903 785 2771</p>
+                                    <p class="text-[11px] text-emerald-400 font-medium mt-0.5">Online & Active Now</p>
+                                </div>
+                            </a>
+
+                            <!-- Location Item -->
+                            <div class="flex items-start gap-3.5 p-3 rounded-xl bg-brand-surface/70 border border-brand-border/10">
+                                <div class="w-10 h-10 rounded-lg gold-gradient-bg text-brand-onyx flex items-center justify-center shrink-0">
+                                    <i data-lucide="globe" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 font-medium">Location & Access</p>
+                                    <p class="text-sm font-bold text-white">Global Online Platform</p>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Headquartered in Lagos, Nigeria</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coaching Availability Note Card -->
+                    <div class="gold-gradient-border p-6 rounded-2xl bg-brand-surface space-y-3">
+                        <div class="flex items-center gap-2 text-brand-gold font-bold text-xs uppercase tracking-wider">
+                            <i data-lucide="zap" class="w-4 h-4"></i> Coaching Slot Alert
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Looking to book <strong>AI Video Coaching — Vol. 1 (₦20,000)</strong>? You can also message our team on WhatsApp directly for immediate slot reservation.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Right Side: Contact Form -->
+                <div class="lg:col-span-7">
+                    <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-brand-border/30 gold-gradient-border">
+                        <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-5">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 mb-1.5">Your Full Name *</label>
+                                    <input type="text" id="contact-name" required placeholder="e.g. Alex Johnson" class="w-full bg-brand-charcoal border border-brand-border/40 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 mb-1.5">Email Address *</label>
+                                    <input type="email" id="contact-email" required placeholder="e.g. alex@example.com" class="w-full bg-brand-charcoal border border-brand-border/40 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 mb-1.5">Inquiry Type *</label>
+                                <select id="contact-type" required class="w-full bg-brand-charcoal border border-brand-border/40 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors">
+                                    <option value="AI Video Launchpad Course">AI Video Launchpad Course (₦15,000)</option>
+                                    <option value="1-on-1 Coaching Vol. 1">1-on-1 Coaching — Vol. 1 (₦20,000)</option>
+                                    <option value="Brand Video Project & Partnership">Brand Commercial & Partnership</option>
+                                    <option value="General Question">General Inquiry</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 mb-1.5">Your Message *</label>
+                                <textarea id="contact-message" required rows="4" placeholder="Tell us how we can help you with AI video creation..." class="w-full bg-brand-charcoal border border-brand-border/40 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-brand-gold transition-colors"></textarea>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                                <button type="submit" class="flex-1 gold-gradient-bg text-brand-onyx font-extrabold py-3.5 rounded-xl shadow-gold-glow flex items-center justify-center gap-2 hover:opacity-95 transition-all text-sm">
+                                    <i data-lucide="send" class="w-4 h-4"></i>
+                                    Send Direct Email Message
+                                </button>
+                                <button type="button" onclick="sendWhatsAppDirectMessage()" class="px-5 glass-panel text-emerald-400 font-bold py-3.5 rounded-xl border border-emerald-500/40 hover:bg-emerald-500/10 transition-all text-sm flex items-center justify-center gap-2">
+                                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                                    Chat on WhatsApp
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brand-onyx border-t border-brand-border/30 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg gold-gradient-bg flex items-center justify-center font-heading font-bold text-brand-onyx text-base">
+                    AI
+                </div>
+                <span class="font-heading font-bold text-lg text-white">AI IRL</span>
+                <span class="text-xs text-gray-500">© 2026 AI IRL. All Rights Reserved.</span>
+            </div>
+
+            <div class="flex items-center gap-4 text-xs">
+                <a id="footer-wa-link" href="#" target="_blank" class="flex items-center gap-2 text-gray-300 hover:text-brand-gold transition-colors glass-panel px-4 py-2 rounded-lg border border-brand-border/20">
+                    <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i> WhatsApp Support
+                </a>
+                <a id="footer-email-link" href="#" class="flex items-center gap-2 text-gray-300 hover:text-brand-gold transition-colors glass-panel px-4 py-2 rounded-lg border border-brand-border/20">
+                    <i data-lucide="mail" class="w-4 h-4 text-brand-gold"></i> Email Support
+                </a>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Enrollment Wizard Modal -->
+    <div id="enroll-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-3xl p-6 sm:p-8 border border-brand-gold/40 shadow-gold-glow-lg relative my-auto max-h-[90vh] overflow-y-auto">
+            
+            <button onclick="closeEnrollModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white p-1">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <div class="space-y-6">
+                <div>
+                    <span class="text-xs font-mono text-brand-gold uppercase tracking-wider font-bold">Enrollment Wizard</span>
+                    <h3 class="text-2xl font-extrabold font-heading text-white">Secure Your Spot</h3>
+                    <p class="text-xs text-gray-400">Select your options below to generate your WhatsApp enrollment ticket.</p>
+                </div>
+
+                <div class="space-y-3">
+                    <label class="block text-xs font-semibold uppercase text-gray-300">Select Item(s):</label>
+                    
+                    <label class="flex items-center justify-between p-4 rounded-xl border border-brand-border/40 bg-brand-charcoal cursor-pointer hover:border-brand-gold transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="check-course" onchange="calculateTotal()" class="w-4 h-4 accent-amber-400 rounded">
+                            <div>
+                                <p class="text-sm font-bold text-white">AI Video Launchpad (Masterclass)</p>
+                                <p class="text-[11px] text-gray-400">Lifetime portal access + 8 modules</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-bold font-mono text-brand-gold">₦15,000</span>
+                    </label>
+
+                    <label class="flex items-center justify-between p-4 rounded-xl border border-brand-border/40 bg-brand-charcoal cursor-pointer hover:border-brand-gold transition-all">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="check-coaching" onchange="calculateTotal()" class="w-4 h-4 accent-amber-400 rounded">
+                            <div>
+                                <p class="text-sm font-bold text-white">1-on-1 Coaching — Vol. 1</p>
+                                <p class="text-[11px] text-gray-400">Direct prompt review + WhatsApp guidance</p>
+                            </div>
+                        </div>
+                        <span class="text-sm font-bold font-mono text-brand-gold">₦20,000</span>
+                    </label>
+                </div>
+
+                <div class="p-4 rounded-xl bg-brand-surface border border-brand-border/30 space-y-2">
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>Selected Package Total:</span>
+                        <span id="calculated-total" class="text-lg font-bold font-mono text-brand-gold">₦0</span>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-brand-charcoal border border-brand-border/30 space-y-2 text-xs">
+                    <p class="font-bold text-brand-gold flex items-center gap-1.5">
+                        <i data-lucide="building-2" class="w-4 h-4"></i> Official Bank Transfer Details
+                    </p>
+                    <div class="space-y-1 text-gray-300 font-mono">
+                        <p>Bank: <strong class="text-white">GTBank / Zenith Bank</strong></p>
+                        <p>Account Name: <strong class="text-white">AI IRL Training</strong></p>
+                        <p>Account Number: <strong class="text-brand-gold text-sm font-bold">0123456789</strong></p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Your Full Name</label>
+                        <input type="text" id="student-name" placeholder="e.g. Samuel Adebayo" class="w-full bg-brand-charcoal border border-brand-border/40 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-brand-gold" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Your Email Address</label>
+                        <input type="email" id="student-email" placeholder="e.g. samuel@gmail.com" class="w-full bg-brand-charcoal border border-brand-border/40 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-brand-gold" />
+                    </div>
+                </div>
+
+                <button onclick="sendWhatsAppConfirmation()" class="w-full gold-gradient-bg text-brand-onyx font-extrabold py-4 rounded-xl shadow-gold-glow flex items-center justify-center gap-2 hover:opacity-95 transition-all text-sm">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    Submit Payment Confirmation via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WHATSAPP_NUMBER = "2349037852771";
+        const BRAND_EMAIL = "hello.aiirl@gmail.com";
+
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            document.getElementById('footer-wa-link').href = `https://wa.me/${WHATSAPP_NUMBER}`;
+            document.getElementById('contact-wa-card').href = `https://wa.me/${WHATSAPP_NUMBER}`;
+            document.getElementById('footer-email-link').href = `mailto:${BRAND_EMAIL}`;
+        });
+
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        let isHeroPlaying = false;
+        function toggleHeroPreview() {
+            const img = document.getElementById('hero-preview-img');
+            const btn = document.getElementById('hero-play-btn');
+
+            if (!isHeroPlaying) {
+                btn.innerHTML = `<i data-lucide="pause" class="w-7 h-7 fill-brand-onyx"></i>`;
+                img.style.filter = "brightness(1.1) contrast(1.05)";
+                isHeroPlaying = true;
+            } else {
+                btn.innerHTML = `<i data-lucide="play" class="w-7 h-7 fill-brand-onyx ml-1"></i>`;
+                img.style.filter = "none";
+                isHeroPlaying = false;
+            }
+            lucide.createIcons();
+        }
+
+        function filterShowcase(e, category) {
+            const tabs = document.querySelectorAll('.showcase-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('bg-brand-gold', 'text-brand-onyx', 'active');
+                tab.classList.add('glass-panel', 'text-gray-300');
+            });
+
+            e.currentTarget.classList.add('bg-brand-gold', 'text-brand-onyx', 'active');
+            e.currentTarget.classList.remove('glass-panel', 'text-gray-300');
+
+            const items = document.querySelectorAll('.showcase-item');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleModule(modId) {
+            const content = document.getElementById(`${modId}-content`);
+            const icon = document.getElementById(`${modId}-icon`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function toggleFaq(faqId) {
+            const content = document.getElementById(faqId);
+            const icon = document.getElementById(`${faqId}-icon`);
+
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function openEnrollModal(defaultSelection) {
+            const modal = document.getElementById('enroll-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            const courseCheck = document.getElementById('check-course');
+            const coachingCheck = document.getElementById('check-coaching');
+
+            if (defaultSelection === 'course') {
+                courseCheck.checked = true;
+                coachingCheck.checked = false;
+            } else if (defaultSelection === 'coaching') {
+                courseCheck.checked = false;
+                coachingCheck.checked = true;
+            }
+            calculateTotal();
+        }
+
+        function closeEnrollModal() {
+            const modal = document.getElementById('enroll-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function calculateTotal() {
+            const courseCheck = document.getElementById('check-course');
+            const coachingCheck = document.getElementById('check-coaching');
+            let total = 0;
+
+            if (courseCheck.checked) total += 15000;
+            if (coachingCheck.checked) total += 20000;
+
+            document.getElementById('calculated-total').innerText = `₦${total.toLocaleString()}`;
+        }
+
+        function sendWhatsAppConfirmation() {
+            const courseCheck = document.getElementById('check-course').checked;
+            const coachingCheck = document.getElementById('check-coaching').checked;
+            const studentName = document.getElementById('student-name').value.trim();
+            const studentEmail = document.getElementById('student-email').value.trim();
+
+            if (!courseCheck && !coachingCheck) {
+                alert("Please select at least one package option.");
+                return;
+            }
+
+            if (!studentName || !studentEmail) {
+                alert("Please fill in your name and email address.");
+                return;
+            }
+
+            let items = [];
+            let total = 0;
+            if (courseCheck) {
+                items.push("AI Video Launchpad Course (₦15,000)");
+                total += 15000;
+            }
+            if (coachingCheck) {
+                items.push("1-on-1 Coaching Vol. 1 (₦20,000)");
+                total += 20000;
+            }
+
+            const message = `Hello AI IRL Team! 👋\n\nI want to confirm my enrollment payment.\n\n*Student Details:*\n- Name: ${studentName}\n- Email: ${studentEmail}\n\n*Selected Package(s):*\n- ${items.join("\n- ")}\n\n*Total Amount:* ₦${total.toLocaleString()}`;
+
+            const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+            closeEnrollModal();
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const type = document.getElementById('contact-type').value;
+            const msg = document.getElementById('contact-message').value;
+
+            const mailtoUrl = `mailto:${BRAND_EMAIL}?subject=${encodeURIComponent(`[AI IRL Inquiry] - ${type}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\nInquiry: ${type}\n\nMessage:\n${msg}`)}`;
+            window.location.href = mailtoUrl;
+        }
+
+        function sendWhatsAppDirectMessage() {
+            const name = document.getElementById('contact-name').value.trim();
+            const type = document.getElementById('contact-type').value;
+            const msg = document.getElementById('contact-message').value.trim();
+
+            const message = `Hello AI IRL Team! 👋\n\n*Name:* ${name || 'N/A'}\n*Inquiry Type:* ${type}\n*Message:* ${msg || 'I would like to make an inquiry.'}`;
+
+            const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
